@@ -1,6 +1,8 @@
 require 'rails_helper'
+require 'devise'
 
 RSpec.describe WikisController, type: :controller do
+  let(:user) { create(:user) }
   let(:my_wiki) { Wiki.create!(title: RandomData.random_sentence, body: RandomData.random_paragraph) }
 
   describe "GET #index" do
@@ -34,16 +36,16 @@ RSpec.describe WikisController, type: :controller do
 
   describe "wiki create" do
     it "increases the number of wiki by 1" do
-      expect{wiki :create, wiki: {title: RandomData.random_sentence, body: RandomData.random_paragraph}}.to change(Wiki,:count).by(1)
+      expect{post :create, wiki: {title: RandomData.random_sentence, body: RandomData.random_paragraph}}.to change(Wiki,:count).by(1)
     end
 
     it "assigns the new wiki to @wiki" do
-      wiki :create, wiki: {title: RandomData.random_sentence, body: RandomData.random_paragraph}
+      post :create, wiki: {title: RandomData.random_sentence, body: RandomData.random_paragraph}
       expect(assigns(:wiki)).to eq Wiki.last
     end
 
     it "redirects to the new wiki" do
-      wiki :create, wiki: {title: RandomData.random_sentence, body: RandomData.random_paragraph}
+      post :create, wiki: {title: RandomData.random_sentence, body: RandomData.random_paragraph}
       expect(response).to redirect_to Wiki.last
     end
   end
