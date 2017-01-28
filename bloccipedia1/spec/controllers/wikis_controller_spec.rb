@@ -3,7 +3,7 @@ require 'devise'
 
 RSpec.describe WikisController, type: :controller do
   let(:user) { create(:user) }
-  let(:my_wiki) { Wiki.create!(title: RandomData.random_sentence, body: RandomData.random_paragraph) }
+  let(:my_wiki) { Wiki.create!(title: Faker::TwinPeaks.quote, body: Faker::Lorem.paragraph) }
 
   describe "GET #index" do
     it "returns http success" do
@@ -36,16 +36,16 @@ RSpec.describe WikisController, type: :controller do
 
   describe "wiki create" do
     it "increases the number of wiki by 1" do
-      expect{post :create, wiki: {title: RandomData.random_sentence, body: RandomData.random_paragraph}}.to change(Wiki,:count).by(1)
+      expect{post :create, wiki: {title: Faker::TwinPeaks.quote, body: Faker::Lorem.paragraph}}.to change(Wiki,:count).by(1)
     end
 
     it "assigns the new wiki to @wiki" do
-      post :create, wiki: {title: RandomData.random_sentence, body: RandomData.random_paragraph}
+      post :create, wiki: {title: Faker::TwinPeaks.quote, body: Faker::Lorem.paragraph}
       expect(assigns(:wiki)).to eq Wiki.last
     end
 
     it "redirects to the new wiki" do
-      post :create, wiki: {title: RandomData.random_sentence, body: RandomData.random_paragraph}
+      post :create, wiki: {title: Faker::TwinPeaks.quote, body: Faker::Lorem.paragraph}
       expect(response).to redirect_to Wiki.last
     end
   end
@@ -93,8 +93,8 @@ RSpec.describe WikisController, type: :controller do
 
   describe "PUT update" do
     it "updates wiki with expected attributes" do
-      new_title = RandomData.random_sentence
-      new_body = RandomData.random_paragraph
+      new_title = Faker::TwinPeaks.quote
+      new_body = Faker::Lorem.paragraph
 
       put :update, id: my_wiki.id, wiki: {title: new_title, body: new_body}
 
@@ -105,8 +105,8 @@ RSpec.describe WikisController, type: :controller do
    end
 
    it "redirects to the updated wiki" do
-      new_title = RandomData.random_sentence
-      new_body = RandomData.random_paragraph
+      new_title = Faker::TwinPeaks.quote
+      new_body = Faker::Lorem.paragraph
 
       put :update, id: my_wiki.id, wiki: {title: new_title, body: new_body}
       expect(response).to redirect_to my_wiki
