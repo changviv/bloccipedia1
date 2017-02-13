@@ -5,18 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+    <%= javascript_include_tag 'applcation', "https://js.stripe.com/v2/" %>
+    <%= tag :meta, :name => "stripe-key", :content => Rails.configuration.stripe[:publishable_key] %>
     <%= csrf_meta_tags %>
   </head>
   <body>
     <div class="container">
       <ul class="nav nav-tabs">
-        <li class="user-info"><%= link_to "Blocipedia", root_path %> </li>
-        <li class="user-info"><%= link_to "Wiki's", wikis_path %> </li>
+        <li class="user-info"><%= link_to "Upgrade Account", new_charge_path %></li>
+        <li class="user-info"><%= link_to "Bloccipedia", root_path %> </li>
+        <li class="user-info"><%= link_to "Wikis", wikis_path %> </li>
         <li class="pull-right user-info">
           <% if user_signed_in? %>
             <div class="pull-right user-info">
-               Signed in as: <strong><%= current_user.email %></strong> |
-               <%= link_to 'Edit profile', edit_user_registration_path, :class => 'navbar-link' %> - <%= link_to "Sign Out", destroy_user_session_path, method: :delete, :class => 'navbar-link'  %>
+               Signed in as: <strong><%= link_to current_user.email, edit_user_registration_path, :class => 'navbar-link'  %></strong> |
+               <%= link_to "Sign Out", destroy_user_session_path, method: :delete, :class => 'navbar-link'  %>
             </div>
           <% else %>
             <div class="user-info">
@@ -28,5 +31,9 @@
       </ul>
       <%= yield %>
     </div>
+    <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+    <script type="text/javascript">
+      Stripe.setPublishableKey('pk_test_ogUopkCx8w7u3I0XWuamnezl');
+    </script>
   </body>
 </html>
